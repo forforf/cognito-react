@@ -1,0 +1,39 @@
+{
+  "name": "cognito-react",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "enzyme": "^2.8.2",
+    "expect": "^1.20.2",
+    "nock": "^9.0.13",
+    "react-app-rewired": "^0.6.5",
+    "react-scripts": "0.9.0",
+    "react-test-renderer": "^15.5.4"
+  },
+  "dependencies": {
+    "amazon-cognito-identity-js": "^1.15.0",
+    "lodash": "^4.17.4",
+    "lodash.debounce": "^4.0.8",
+    "lodash.throttle": "^4.1.1",
+    "material-ui": "^0.16.7",
+    "prop-types": "^15.5.10",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-redux": "^5.0.5",
+    "react-router": "^3.0.4",
+    "react-router-redux": "^4.0.8",
+    "react-tap-event-plugin": "^2.0.1",
+    "react-virtualized": "^8.11.3",
+    "redux": "^3.6.0",
+    "redux-localstorage-simple": "^1.2.0",
+    "redux-observable": "^0.14.0",
+    "rxjs": "^5.0.3"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "NODE_PATH=src react-app-rewired test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
