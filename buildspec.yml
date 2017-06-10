@@ -1,0 +1,30 @@
+# Spec for AWS CodeBuild
+version: 0.2
+
+env:
+  variables:
+    FOO: "BAR"
+
+phases:
+  install:
+    commands:
+      - echo "Starting install ..."
+      - apt-get update -y
+      - npm install
+
+      # - aws s3 sync ./build s3://cognito-react
+  pre_build:
+    commands:
+      - echo Nothing to do in the pre_build phase...
+  build:
+    commands:
+      - echo Build started on `date`
+      - npm run build
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo "FOO: $FOO"
+artifacts:
+  # files:
+    # - target/messageUtil-1.0.jar
+  discard-paths: yes
