@@ -3,27 +3,30 @@ version: 0.2
 
 env:
   variables:
-    FOO: "BAR"
+    BUILD_OBJECT: s3://forforf-cognito-react-build/build
+    DEPLOY_OBJECT: s3://cognito-react
 
 phases:
   install:
     commands:
-      - echo "Starting install ..."
+      - 'echo "AWS CODEBUILD: Starting install ..."'
       - apt-get update -y
       - npm install
-
-      # - aws s3 sync ./build s3://cognito-react
   pre_build:
     commands:
-      - echo Nothing to do in the pre_build phase...
+      - 'echo "AWS CODEBUILD: Nothing to do in the pre_build phase..."'
   build:
     commands:
-      - echo Build started on `date`
+      - 'echo "AWS CODEBUILD: Build started on `date`"'
       - npm run build
   post_build:
     commands:
-      - echo Build completed on `date`
-      - echo foo was $FOO
+      - 'echo "AWS CODEBUILD: Build completed on `date`"'
+      - 'echo "AWS CODEBUILD: syncing to $BUILD_OBJECT-`date +"%Y-%m-%d_%H:%M:%S"` ..."'
+      - aws s3 sync ./build $BUILD_OBJECT-`date +"%Y-%m-%d_%H:%M:%S"`
+      - 'echo "AWS CODEBUILD: syncing to $DEPLOY_OBJECT"'
+      - aws s3 sync ./build $DEPLOY_OBJECT
+
 artifacts:
   # files:
     # - target/messageUtil-1.0.jar
