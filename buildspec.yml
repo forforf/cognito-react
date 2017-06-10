@@ -5,6 +5,7 @@ env:
   variables:
     BUILD_OBJECT: s3://forforf-cognito-react-build/build
     DEPLOY_OBJECT: s3://cognito-react
+    CI: true
 
 phases:
   install:
@@ -24,6 +25,8 @@ phases:
       - 'echo "AWS CODEBUILD: Build completed on `date`"'
       - 'echo "AWS CODEBUILD: syncing to $BUILD_OBJECT-`date +"%Y-%m-%d_%H:%M:%S"` ..."'
       - aws s3 sync ./build $BUILD_OBJECT-`date +"%Y-%m-%d_%H:%M:%S"`
+      - 'echo "AWS CODEBUILD: running tests CI=$CI (should be true)"'
+      - npm test
       - 'echo "AWS CODEBUILD: syncing to $DEPLOY_OBJECT"'
       - aws s3 sync ./build $DEPLOY_OBJECT
 
