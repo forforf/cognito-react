@@ -23,7 +23,7 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
-      - echo "FOO: $FOO"
+      - echo foo was $FOO
 artifacts:
   # files:
     # - target/messageUtil-1.0.jar
