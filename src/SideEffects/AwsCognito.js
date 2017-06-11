@@ -1,7 +1,7 @@
 import Rx from "rxjs/Rx";
 import AWS from "aws-sdk";
 /* Required even though it appears they are not used */
-import {CognitoUserPool, CognitoUserAttribute} from "amazon-cognito-identity-js"; // eslint-disable-line no-unused-vars
+import {AuthenticationDetails, CognitoUser, CognitoUserPool, CognitoUserAttribute} from "amazon-cognito-identity-js"; // eslint-disable-line no-unused-vars
 
 
 const registerUserCallback = (state, callback) => {
@@ -24,13 +24,13 @@ const registerUserCallback = (state, callback) => {
     Value: signupData.awsUserConfig.user
   };
 
-  attributes.push(new AWS.CognitoIdentityServiceProvider.CognitoUserAttribute(emailData));
-  attributes.push(new AWS.CognitoIdentityServiceProvider.CognitoUserAttribute(nameData));
+  attributes.push(new CognitoUserAttribute(emailData));
+  attributes.push(new CognitoUserAttribute(nameData));
 
 
   const user = signupData.awsUserConfig.user;
   const password = signupData.awsUserConfig.password;
-  const userPool = new AWS.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+  const userPool = new CognitoUserPool(poolData);
   userPool.signUp(user, password, attributes, null, callback);
 };
 
@@ -43,14 +43,14 @@ const confirmUserCallback = (action, callback) => {
     ClientId: awsState.awsCognitoAccount.AppClientId
   };
 
-  const userPool = new AWS.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+  const userPool = new CognitoUserPool(poolData);
 
   const userData = {
     Username: awsState.awsUser,
     Pool: userPool
   };
 
-  const cognitoUser = new AWS.CognitoIdentityServiceProvider.CognitoUser(userData);
+  const cognitoUser = new CognitoUser(userData);
 
   cognitoUser.confirmRegistration(awsState.awsCode, true, callback);
 };
@@ -79,16 +79,17 @@ const signInUserCallback = (action, callback) => {
       Password: cognitoRequest.password
     };
 
-  let authDetails = new AWS.CognitoIdentityServiceProvider.AuthenticationDetails(authData);
 
-  const userPool = new AWS.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+  let authDetails = new AuthenticationDetails(authData);
+
+  const userPool = new CognitoUserPool(poolData);
 
   const userData = {
     Username: cognitoRequest.user,
     Pool: userPool
   };
 
-  const cognitoUser = new AWS.CognitoIdentityServiceProvider.CognitoUser(userData);
+  const cognitoUser = new CognitoUser(userData);
   cognitoUser.authenticateUser(authDetails, {
     onSuccess: (result) => {
 
@@ -121,7 +122,7 @@ const signInUserCallback = (action, callback) => {
       // User was signed up by an admin and must provide new
       // password and required attributes, if any, to complete
       // authentication.
-;
+
       // userAttributes: object, which is the user's current profile. It will list all attributes that are associated with the user.
       // Required attributes according to schema, which don’t have any values yet, will have blank values.
       // requiredAttributes: list of attributes that must be set by the user along with new password to complete the sign-in.
