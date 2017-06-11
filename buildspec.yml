@@ -4,7 +4,7 @@ version: 0.2
 env:
   variables:
     BUILD_OBJECT: s3://forforf-cognito-react-build/build
-    DEPLOY_OBJECT: s3://cognito-react
+    DEPLOY_OBJECT: s3://cognito-react.joha.us
     CI: true
 
 phases:
