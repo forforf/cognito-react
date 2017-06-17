@@ -4,7 +4,7 @@ Working Example  <http://cognito-react.joha.us/>
 
 ## What is this?
 
-It’s a bare-bones, but fully functional web app that puts together several technologies:
+It’s a bare-bones, but fully functional reference web app that puts together several technologies:
 * [AWS Cognito Service](https://aws.amazon.com/documentation/cognito/)
 * [React](https://facebook.github.io/react/) / [Redux](http://redux.js.org/) /[redux-observable](https://redux-observable.js.org/)
 * LocalStorage
@@ -16,12 +16,78 @@ It's mostly about getting access to the [AWS Javascript SDK](http://docs.aws.ama
 
 Here's a [random person](https://dev.solteq.com/2017/02/24/aws-cognito-experiences/) from the internet who happens to provide background and explain some of the motivations. In case the link goes away in the future, basically it explains cognito, and that they found the premise intriguing, but implementation was way too hard, and examples too sparse.
 
+## Configuring and Setting Up
 
-## Using the App
+The reference app uses an already set up cognito account. So it should work right out of the box.
+Just run "npm build"
+This is exactly what the working example is listed above.
+
+However, the reference app is pretty useless for actually doing anything.
+
+The following touches no how to set up your own Cognito account and get it working with this app.
+
+### Amazon Cognito
+
+There are three key pieces of Cognito data used by the app
+* AppClientId
+* identityPoolId
+* UserPoolId
+
+You will need to create a Cognito User Pool and Federated Identity Pool if you don't already have them.
+(Using Cognito from the AWS Console)
+
+#### User Pool Configurations
+
+The UserPoolId and AppClientId come from a Cognito user pool service.
+In "User Pools", select the user pool that should be associated with this web app.
+
+##### UserPoolId
+
+Under "General Settings" you can find "Pool Id". This is the UserPoolId to use.
+
+
+##### AppClientId
+
+Under "General Settings > App Clients" you can find the App client name, and the App client id.
+The App client id value is used for AppClientId
+
+#### Federated Identities Configuratios
+
+The identityPoolId comes from a Cognito federated identity service.
+Under "Federated Identities" select the idnetity pool id that is associated with this web app.
+
+** Make sure the Authentication Method matches the UserPoolId from above **
+
+##### identityPoolId
+
+Under "Identity Pool > Identity Browser" you can find the "Identity ID" this is the identityPoolId.
+If you click on that id for additional details, you should see that it is linked to the UserPoolId
+
+### Configure cognito-react for a different Cognito account
+
+In `src/app/InitialState/InitialStateIndex.js` update the awsCognitoAccount with the
+AppClientId, identityPoolId and UserPoolId with the settings from Cognito.
+
+```javascript
+{
+  // ...
+  awsCognitoAccount: {
+    AppClientId: 'abcdefghijklmnopq0123456789',
+    identityPoolId: 'us-east-1:00112233-4455-6677-8899-aabbccddeeff',
+    UserPoolId: 'us-east-1_aBcdEfgHi'
+    // ...
+  }
+  // ...
+ }
+```
+
+That should be enough to get the app working.
+
+## Using the Web App
 
 Apologies in advance. I'm not great at UIs.
 
-### Home: No Access to AWS yet 
+### Home Tab 
 
 First go to the home tab and notice that we don't have access to AWS resources. In this case we don't have access to the S3 Bucket.
 
